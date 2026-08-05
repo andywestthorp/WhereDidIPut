@@ -103,6 +103,6 @@ CREATE TABLE `WhereThingsAreStored` (
 ## 🤝 License
 
 Distributed under the MIT License. Feel free to fork, adapt, and improve as you see fit!
-I'm hoping it might stop me from buying more random items whenever I need to do some DIY - as I probably already have 3 or 4 of those somewhwere!
+I'm hoping it might stop me from buying more random items whenever I need to do some DIY - as I probably already have 3 or 4 of those somewhere!
 
 AW August 2026
