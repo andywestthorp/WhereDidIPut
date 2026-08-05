@@ -97,4 +97,6 @@ CREATE TABLE `WhereThingsAreStored` (
 
 ## 🤝 License
 
-Distributed under the MIT License. Feel free to fork, adapt, and improve for your own garage or workshop!
+Distributed under the MIT License. Feel free to fork, adapt, and improve as you see fit!
+
+AW August 2026
