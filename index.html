@@ -15,18 +15,24 @@
 <body class="bg-gray-100 min-h-screen text-gray-800">
 
   <!-- Navigation / Header -->
-  <header class="bg-slate-900 text-white shadow-md sticky top-0 z-40" style="background-color: #0f172a;">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <h1 class="text-xl font-bold flex items-center gap-2">
-        🤔 Where did I put...
-      </h1>
-      <button 
-        onclick="toggleForm()" 
-        class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg text-sm transition flex items-center gap-1 shadow">
+<header class="bg-slate-900 text-white shadow-md sticky top-0 z-40" style="background-color: #0f172a;">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+    <h1 class="text-xl font-bold flex items-center gap-2">
+      🤔️ Where did I put....
+    </h1>
+    <div class="flex items-center gap-2">
+      <button onclick="openManageModal('locations')" class="bg-slate-700 hover:bg-slate-600 text-white font-medium px-3 py-2 rounded-lg text-sm transition">
+        📍 Locations
+      </button>
+      <button onclick="openManageModal('types')" class="bg-slate-700 hover:bg-slate-600 text-white font-medium px-3 py-2 rounded-lg text-sm transition">
+        🏷️ Types
+      </button>
+      <button onclick="toggleForm()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg text-sm transition shadow">
         + Add New Item
       </button>
     </div>
-  </header>
+  </div>
+</header>
 
   <!-- Main Content Container -->
   <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
@@ -192,6 +198,36 @@
       </form>
     </div>
   </div>
+  
+  <!-- Manage Categories & Locations Modal -->
+<div id="manageModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-xl shadow-lg max-w-md w-full p-6 space-y-4">
+    <div class="flex justify-between items-center border-b pb-2">
+      <h3 id="manageModalTitle" class="text-lg font-bold text-gray-900">Manage</h3>
+      <button onclick="closeManageModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
+    </div>
+
+    <!-- Quick Add Input -->
+    <div class="flex gap-2">
+      <input type="text" id="newCategoryInput" placeholder="Add new entry..." class="flex-1 border border-gray-300 rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+      <button onclick="saveNewCategory()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-3 py-2 rounded-md">
+        Add
+      </button>
+    </div>
+
+    <!-- List of Existing Items -->
+    <div id="manageList" class="max-h-60 overflow-y-auto divide-y border rounded-md">
+      <!-- Populated via JS -->
+    </div>
+
+    <div class="flex justify-end pt-2">
+      <button onclick="closeManageModal()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-sm">
+        Done
+      </button>
+    </div>
+  </div>
+</div>
+
 
   <!-- Application Logic -->
   <script>
@@ -349,6 +385,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const filterSelect = document.getElementById('locationFilter');
             const formSelect = document.getElementById('itemLocationSelect');
 
+            // Reset dropdown options before populating
+            if (filterSelect) filterSelect.innerHTML = '<option value="">All Locations</option>';
+            if (formSelect) formSelect.innerHTML = '<option value="">-- Select Location --</option>';
+
             locData.data.forEach(loc => {
               const label = loc.Location + (loc.LocationDescription ? ` (${loc.LocationDescription})` : '');
               if (filterSelect) filterSelect.innerHTML += `<option value="${loc.LocationID}">${label}</option>`;
@@ -375,25 +415,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Modal Control & Pre-population
+    
     function openEditModal(item) {
       document.getElementById('editMaterialId').value = item.MaterialID;
       document.getElementById('editName').value = item.Name || '';
       document.getElementById('editQuantity').value = item.Quantity !== undefined ? item.Quantity : 1;
       document.getElementById('editDescription').value = item.MaterialDescription || '';
-
+    
       const filterSelect = document.getElementById('locationFilter');
       const editSelect = document.getElementById('editLocationSelect');
       
       if (filterSelect && editSelect) {
+        // Copy options cleanly from locationFilter
         editSelect.innerHTML = filterSelect.innerHTML;
-        if (editSelect.options[0] && editSelect.options[0].value === "") {
+        // Update the default placeholder text
+        if (editSelect.options[0]) {
           editSelect.options[0].text = "-- Select Location --";
         }
         editSelect.value = item.LocationID || '';
       }
-
+    
       document.getElementById('editModal').classList.remove('hidden');
     }
+
 
     function closeEditModal() {
       document.getElementById('editModal').classList.add('hidden');
@@ -545,6 +589,99 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     }
+    
+    
+    let currentManageType = ''; // 'locations' or 'types'
+
+async function openManageModal(mode) {
+  currentManageType = mode;
+  const title = document.getElementById('manageModalTitle');
+  title.textContent = mode === 'locations' ? 'Manage Storage Locations' : 'Manage Material Types';
+  document.getElementById('newCategoryInput').value = '';
+  document.getElementById('manageModal').classList.remove('hidden');
+  await renderManageList();
+}
+
+function closeManageModal() {
+  document.getElementById('manageModal').classList.add('hidden');
+  loadDropdowns(); // Refresh main UI dropdowns when closing modal
+}
+
+async function renderManageList() {
+  const container = document.getElementById('manageList');
+  container.innerHTML = '<div class="p-3 text-center text-xs text-gray-500">Loading...</div>';
+
+  const endpoint = currentManageType === 'locations' ? 'locations.php' : 'types.php';
+  const res = await fetch(`${API_BASE}${endpoint}`);
+  const result = await res.json();
+
+  if (result.status === 'success') {
+    container.innerHTML = result.data.map(item => {
+      const id = currentManageType === 'locations' ? item.LocationID : item.MatTypeID;
+      const name = currentManageType === 'locations' ? item.Location : item.MaterialType;
+      
+      return `
+        <div class="flex items-center justify-between p-2.5 hover:bg-gray-50">
+          <span class="text-sm font-medium text-gray-800">${name}</span>
+          <div class="flex gap-2">
+            <button onclick="editCategoryItem(${id}, '${name.replace(/'/g, "\\'")}')" class="text-xs text-blue-600 hover:underline">Edit</button>
+            <button onclick="deleteCategoryItem(${id}, '${name.replace(/'/g, "\\'")}')" class="text-xs text-red-600 hover:underline">Delete</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+async function saveNewCategory() {
+  const name = document.getElementById('newCategoryInput').value.trim();
+  if (!name) return;
+
+  const endpoint = currentManageType === 'locations' ? 'manage_locations.php' : 'manage_types.php';
+  const fieldName = currentManageType === 'locations' ? 'Location' : 'MaterialType';
+
+  const formData = new FormData();
+  formData.append('action', 'create');
+  formData.append(fieldName, name);
+
+  await fetch(`${API_BASE}${endpoint}`, { method: 'POST', body: formData });
+  document.getElementById('newCategoryInput').value = '';
+  renderManageList();
+}
+
+async function editCategoryItem(id, currentName) {
+  const newName = prompt(`Edit ${currentManageType === 'locations' ? 'Location' : 'Material Type'}:`, currentName);
+  if (!newName || newName === currentName) return;
+
+  const endpoint = currentManageType === 'locations' ? 'manage_locations.php' : 'manage_types.php';
+  const idField = currentManageType === 'locations' ? 'LocationID' : 'MatTypeID';
+  const nameField = currentManageType === 'locations' ? 'Location' : 'MaterialType';
+
+  const formData = new FormData();
+  formData.append('action', 'update');
+  formData.append(idField, id);
+  formData.append(nameField, newName);
+
+  await fetch(`${API_BASE}${endpoint}`, { method: 'POST', body: formData });
+  renderManageList();
+}
+
+async function deleteCategoryItem(id, name) {
+  if (!confirm(`Are you sure you want to delete "${name}"?`)) return;
+
+  const endpoint = currentManageType === 'locations' ? 'manage_locations.php' : 'manage_types.php';
+  const idField = currentManageType === 'locations' ? 'LocationID' : 'MatTypeID';
+
+  const formData = new FormData();
+  formData.append('action', 'delete');
+  formData.append(idField, id);
+
+  await fetch(`${API_BASE}${endpoint}`, { method: 'POST', body: formData });
+  renderManageList();
+}
   </script>
+  
+  
+  
 </body>
 </html>
