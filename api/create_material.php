@@ -1,12 +1,8 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
 
-// PDO Database Connection
-$host = 'localhost';
-$db   = 'longtwla_dev_Workshop';
-$user = 'longtwla_web';
-$pass = 'W3stth0rp';
-$charset = 'utf8mb4';
+require_once 'db.php';
+
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
@@ -25,7 +21,7 @@ try {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['Name'] ?? '');
-    $typeOfMaterial = intval($_POST['TypeOfMaterial'] ?? 0);
+    $typeOfMaterial = intval($_POST['MatTypeID'] ?? 0);
     $description = trim($_POST['MaterialDescription'] ?? '');
     $locationId = intval($_POST['LocationID'] ?? 0);
 
