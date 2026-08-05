@@ -8,9 +8,11 @@
 > **Why can I never find my......**  
 > I had a load of cardboard boxes from Gousto so I wrote some numbers on them and shoved various items in to them as part of a big tidy up / hoy out.
 > This little PWA will let me take a snap of items and note where they are.
+> 
 ![App Interface](photos/main_page.png)
-> Okay - It is a bit of an effort but it really makes it easy to find things again.
-> The alternate approach which sometimes works is to try to convince your brain that you are looking for a purple crocodile, then as you randomly check various drawers, cupboards and boxes, you will find all sorts of stuff.
+> 
+>It takes a bit of effort upfront, but it makes finding things later so much easier. The alternative strategy—which actually works sometimes—is to convince your brain you're looking for a purple crocodile. As you randomly search through drawers, cupboards, and boxes, you'll end up finding everything else you'd lost!
+> 
 ![Finding my favourite paint brush](photos/wheres_my_brush.png)
 ---
 
