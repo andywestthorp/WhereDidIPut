@@ -1,4 +1,4 @@
-# 🛠️ Workshop Storage Manager (WhereDidIPut)
+# 🛠️ WhereDidIPut - (that paintbrush / tin of polish / tube of silicone)
 
 ![PWA Badge](https://img.shields.io/badge/PWA-Ready-0f172a?style=for-the-badge&logo=pwa&logoColor=white)
 ![PHP Badge](https://img.shields.io/badge/Backend-PHP_8%2B-777BB4?style=for-the-badge&logo=php&logoColor=white)
@@ -98,5 +98,6 @@ CREATE TABLE `WhereThingsAreStored` (
 ## 🤝 License
 
 Distributed under the MIT License. Feel free to fork, adapt, and improve as you see fit!
+I'm hoping it might stop me from buying more random items whenever I need to do some DIY - as I probably already have 3 or 4 of those somewhwere!
 
 AW August 2026
