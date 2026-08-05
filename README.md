@@ -96,8 +96,8 @@ CREATE TABLE `WhereThingsAreStored` (
 3. **Install as PWA**
    - **iOS (Safari):** Open application URL -> Tap **Share** -> Tap **Add to Home Screen**.
    - **Android (Chrome):** Open options menu **⋮** -> Tap **Install App**.
-   - ![Mobile Friendly](photos/mobile_friendly.png)
 
+![Mobile Friendly](photos/mobile_friendly.png)
 ---
 
 ## 🤝 License
