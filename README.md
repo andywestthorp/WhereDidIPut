@@ -1,4 +1,4 @@
-# 🛠️ WhereDidIPut - (that paintbrush / tin of polish / tube of silicone)
+# 🤔 WhereDidIPut - (that paintbrush / tin of polish / tube of silicone)
 
 ![PWA Badge](https://img.shields.io/badge/PWA-Ready-0f172a?style=for-the-badge&logo=pwa&logoColor=white)
 ![PHP Badge](https://img.shields.io/badge/Backend-PHP_8%2B-777BB4?style=for-the-badge&logo=php&logoColor=white)
