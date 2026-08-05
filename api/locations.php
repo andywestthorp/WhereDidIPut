@@ -15,7 +15,7 @@ try {
     $pdo = new PDO($dsn, $user, $pass, $options);
     
     // Fetch all storage locations sorted by name
-    $stmt = $pdo->query("SELECT LocationID, Location, LocationDescription FROM Locations ORDER BY Location ASC");
+    $stmt = $pdo->query("SELECT LocationID, Location, LocationDescription FROM Locations ORDER BY LENGTH(Location) ASC, Location ASC");
     $locations = $stmt->fetchAll();
 
     echo json_encode([
