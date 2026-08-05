@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
 
-include "db.php";
+require_once 'db.php';
 
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
