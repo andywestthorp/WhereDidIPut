@@ -1,13 +1,17 @@
 # 🛠️ Workshop Storage Manager (WhereDidIPut)
 
-> **Never lose a tool or fastener in your workshop again.**  
-> A lightweight, fast, installable Progressive Web App (PWA) designed to track materials, consumables, tools, and their exact storage locations.
-
 ![PWA Badge](https://img.shields.io/badge/PWA-Ready-0f172a?style=for-the-badge&logo=pwa&logoColor=white)
 ![PHP Badge](https://img.shields.io/badge/Backend-PHP_8%2B-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![MySQL Badge](https://img.shields.io/badge/Database-MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![Tailwind CSS Badge](https://img.shields.io/badge/UI-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
+> **Why can I never find my......**  
+> I had a load of cardboard boxes from Gousto so I wrote some numbers on them and shoved various items in to them as part of a big tidy up / hoy out.
+> This little PWA will let me take a snap of items and note where they are.
+![App Interface](photos/main_page.png)
+> Okay - It is a bit of an effort but it really makes it easy to find things again.
+> The alternate approach which sometimes works is to try to convince your brain that you are looking for a purple crocodile, then as you randomly check various drawers, cupboards and boxes, you will find all sorts of stuff.
+![Finding my favourite paint brush](photos/wheres_my_brush.png)
 ---
 
 ## ✨ Features
@@ -17,6 +21,7 @@
 - 📦 **Stock & Quantity Counter** — Manage consumables with quick-adjust `+` and `-` buttons right on item cards.
 - 📸 **Automatic Image Compression** — High-resolution photos taken on phone cameras are compressed locally before upload to save server bandwidth.
 - ✏️ **Full CRUD Capabilities** — Easily create, update location/description, or mark items as consumed/deleted.
+  ![Editing](photos/editing.png)
 - 🏷️ **Dynamic Dropdowns** — Storage locations and material categories populate straight from your database.
 
 ---
